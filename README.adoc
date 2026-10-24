@@ -1,0 +1,5 @@
+= metanorma-plugin-openapi
+
+Metanorma plugin rendering model-driven normative sections from OpenAPI documents.
+
+Status: scaffold. The program plan (model gem, requirements-class rendering, acceptance on the OGC API - Features corpus) lives in https://github.com/lutaml/lutaml-openapi[ lutaml/lutaml-openapi's PLAN.md]; this plugin closes https://github.com/metanorma/metanorma-ogc/issues/153[metanorma-ogc#153].
