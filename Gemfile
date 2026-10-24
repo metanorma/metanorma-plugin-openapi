@@ -14,10 +14,6 @@ gem "coradoc", git: coradoc_repo, glob: "coradoc/*.gemspec"
 gem "coradoc-adoc", git: coradoc_repo, glob: "coradoc-adoc/*.gemspec"
 gem "coradoc-markdown", git: coradoc_repo, glob: "coradoc-markdown/*.gemspec"
 
-# the renderer consumes the model gem from its main branch until it
-# releases
-gem "lutaml-openapi", github: "lutaml/lutaml-openapi", branch: "main"
-
 gem "rubocop", "~> 1.21"
 gem "rubocop-performance", "~> 1.0"
 
