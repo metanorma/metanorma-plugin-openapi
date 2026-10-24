@@ -83,3 +83,30 @@ RSpec.describe "OGC corpus rendering (metanorma-ogc#153 acceptance)" do
     expect(adoc).not_to include("](https://")
   end
 end
+
+RSpec.describe Metanorma::Plugin::Openapi::Renderer, monorepo: false do
+  def render_from(openapi_yaml)
+    doc = Lutaml::Openapi.parse(openapi_yaml)
+    described_class.new(doc).render
+  end
+
+  it "passes descriptions through when the coradoc monorepo is absent" do
+    stub_const("Metanorma::Plugin::Openapi::Renderer::MONOREPO", false)
+    adoc = render_from(<<~YAML)
+      openapi: 3.1.0
+      info:
+        title: Plain
+        description: |
+          See [an inline link](https://example.com).
+
+          - point one
+      components:
+        schemas:
+          exception:
+            type: object
+    YAML
+
+    expect(adoc).to include("See https://example.com[an inline link].")
+    expect(adoc).to include("- point one")
+  end
+end

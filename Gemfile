@@ -6,9 +6,10 @@ gemspec
 
 gem "rake", "~> 13.0"
 gem "rspec", "~> 3.0"
-# the hub-and-spoke coradoc monorepo (the 2.0-generation markdown
-# spoke is not yet on rubygems; the gemspec pins the released stack at
-# plugin-release time)
+# the hub-and-spoke coradoc monorepo; dev-only (the gemspec treats it
+# as an optional enhancement, see the MONOREPO note in renderer.rb).
+# Released spokes lag main's converter (1.0.13 passes CommonMark
+# bold through raw), so track git here.
 coradoc_repo = "https://github.com/metanorma/coradoc.git"
 gem "coradoc", git: coradoc_repo, glob: "coradoc/*.gemspec"
 gem "coradoc-adoc", git: coradoc_repo, glob: "coradoc-adoc/*.gemspec"
