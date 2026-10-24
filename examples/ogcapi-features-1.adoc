@@ -1,0 +1,114 @@
+= Building Blocks specified in OGC API - Features - Part 1: Core
+
+API version: 3.1.1
+Common components used in the
+https://docs.ogc.org/is/17-069r5/17-069r5.html[OGC standard "OGC API - Features - Part 1: Core"].
+
+OGC API - Features - Part 1: Core 1.1 is an OGC Standard.
+Copyright (c) 2024 Open Geospatial Consortium.
+To obtain additional rights of use, visit https://www.ogc.org/legal/ .
+
+This document is also available on
+https://schemas.opengis.net/ogcapi/features/part1/1.1/openapi/ogcapi-features-1-oas31.yaml[OGC].
+
+
+== Schemas
+
+=== collection
+
+Type: `object`
+
+=== collections
+
+Type: `object`
+
+=== confClasses
+
+Type: `object`
+
+=== exception
+
+Type: `object`
+
+=== extent
+
+The extent of the features in the collection. In the Core only spatial and temporal
+extents are specified. Extensions may add additional members to represent other
+extents, for example, thermal or pressure ranges.
+
+Type: `object`
+
+=== featureCollectionGeoJSON
+
+Type: `object`
+
+=== featureGeoJSON
+
+Type: `object`
+
+=== geometryGeoJSON
+
+=== geometrycollectionGeoJSON
+
+Type: `object`
+
+=== landingPage
+
+Type: `object`
+
+=== linestringGeoJSON
+
+Type: `object`
+
+=== link
+
+Type: `object`
+
+=== linkTemplate
+
+Type: `object`
+
+=== multilinestringGeoJSON
+
+Type: `object`
+
+=== multipointGeoJSON
+
+Type: `object`
+
+=== multipolygonGeoJSON
+
+Type: `object`
+
+=== numberMatched
+
+The number of features of the feature type that match the selection
+parameters like ``bbox``.
+
+Type: `integer`
+
+=== numberReturned
+
+The number of features in the feature collection.
+
+A server may omit this information in a response, if the information
+about the number of features is not known or difficult to compute.
+
+If the value is provided, the value shall be identical to the number
+of items in the "features" array.
+
+Type: `integer`
+
+=== pointGeoJSON
+
+Type: `object`
+
+=== polygonGeoJSON
+
+Type: `object`
+
+=== timeStamp
+
+This property indicates the time and date when the response was generated.
+
+Type: `string`
