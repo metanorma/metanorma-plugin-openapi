@@ -34,7 +34,9 @@ module Metanorma
 
         def load_document(parent, source)
           base = ::File.dirname(parent.document.attributes["docfile"] || ".")
-          Lutaml::Openapi.parse(::File.read(::File.expand_path(source, base)))
+          # ::Lutaml — metanorma-plugin-lutaml defines Metanorma::Plugin::Lutaml,
+          # which would capture a lexically scoped Lutaml::Openapi lookup
+          ::Lutaml::Openapi.parse(::File.read(::File.expand_path(source, base)))
         end
       end
     end
