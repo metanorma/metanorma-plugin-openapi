@@ -27,7 +27,7 @@ RSpec.describe Metanorma::Plugin::Openapi::Renderer do
             description: An *exception* payload.
     YAML
 
-    expect(adoc).to start_with("= OGC API - Features")
+    expect(adoc).to start_with("== OGC API - Features")
     # CommonMark bold converts to AsciiDoc bold via the coradoc tree
     expect(adoc).to include("*OGC API - Features* standard.")
     # CommonMark links: coradoc passes them raw; the renderer bridges
@@ -57,9 +57,9 @@ RSpec.describe Metanorma::Plugin::Openapi::Renderer do
     expect(adoc).to include("Lists the *collections*.")
   end
 
-  it "exposes the Asciidoctor block class for metanorma activation" do
-    expect(Metanorma::Plugin::Openapi::Block.superclass)
-      .to be(Asciidoctor::Extensions::BlockProcessor)
+  it "exposes the Asciidoctor preprocessor class for metanorma activation" do
+    expect(Metanorma::Plugin::Openapi::Preprocessor.superclass)
+      .to be(Asciidoctor::Extensions::Preprocessor)
   end
 end
 
@@ -71,7 +71,7 @@ RSpec.describe "OGC corpus rendering (metanorma-ogc#153 acceptance)" do
     doc = Lutaml::Openapi.parse(source)
     adoc = Metanorma::Plugin::Openapi::Renderer.new(doc).render
 
-    title = "= Building Blocks specified in OGC API - Features - Part 1: Core"
+    title = "== Building Blocks specified in OGC API - Features - Part 1: Core"
     expect(adoc).to start_with(title)
     expect(adoc).to include("== Schemas")
     expect(adoc).to include("=== featureCollectionGeoJSON")

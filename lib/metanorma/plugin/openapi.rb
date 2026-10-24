@@ -7,7 +7,7 @@ module Metanorma
     module Openapi
       autoload :VERSION, "metanorma/plugin/openapi/version"
       autoload :Renderer, "metanorma/plugin/openapi/renderer"
-      autoload :Block, "metanorma/plugin/openapi/block"
+      autoload :Preprocessor, "metanorma/plugin/openapi/preprocessor"
     end
   end
 end
