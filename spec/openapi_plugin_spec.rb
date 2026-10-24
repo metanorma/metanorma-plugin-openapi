@@ -8,13 +8,13 @@ RSpec.describe Metanorma::Plugin::Openapi do
   end
 end
 
-RSpec.describe Metanorma::Plugin::Openapi::Block do
-  it "resolves ::Lutaml past the metanorma-plugin-lutaml namespace" do
+RSpec.describe Metanorma::Plugin::Openapi::Preprocessor do
+  it "splices real sections past the plugin-lutaml namespace" do
     stub_const("Metanorma::Plugin::Lutaml", Module.new)
     docfile = File.expand_path("fixtures/ogcapi-features-1-oas31.yaml",
                                __dir__)
     registry = Asciidoctor::Extensions.create do
-      block Metanorma::Plugin::Openapi::Block
+      preprocessor Metanorma::Plugin::Openapi::Preprocessor
     end
 
     doc = Asciidoctor.load(
@@ -23,6 +23,21 @@ RSpec.describe Metanorma::Plugin::Openapi::Block do
       attributes: { "docfile" => docfile },
     )
 
-    expect(doc.blocks[0].lines).to include("== Schemas")
+    schemas = doc.find_by(context: :section) { |s| s.title == "Schemas" }
+    expect(schemas).not_to be_empty
+  end
+
+  it "raises on a missing -- -- envelope" do
+    docfile = File.expand_path("fixtures/ogcapi-features-1-oas31.yaml",
+                               __dir__)
+    registry = Asciidoctor::Extensions.create do
+      preprocessor Metanorma::Plugin::Openapi::Preprocessor
+    end
+
+    expect do
+      Asciidoctor.load("[openapi,path=ogcapi-features-1-oas31.yaml]\n",
+                       extension_registry: registry,
+                       attributes: { "docfile" => docfile })
+    end.to raise_error(ArgumentError, /envelope/)
   end
 end

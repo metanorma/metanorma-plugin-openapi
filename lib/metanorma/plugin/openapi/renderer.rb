@@ -33,9 +33,11 @@ module Metanorma
 
         private
 
+        # The preface is a section: spliced content must stay at `==`
+        # level (a level-0 line mid-document degrades to a paragraph)
         def preface
           info = @document.info || {}
-          lines = ["= #{info['title'] || 'OpenAPI document'}", ""]
+          lines = ["== #{info['title'] || 'OpenAPI document'}", ""]
           lines << "API version: #{@document.openapi}" if @document.openapi
           if (desc = info["description"])
             lines << to_asciidoc(desc) << ""
