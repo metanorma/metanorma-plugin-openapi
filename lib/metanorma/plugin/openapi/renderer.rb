@@ -1,13 +1,23 @@
 # frozen_string_literal: true
 
 require "lutaml/openapi"
-require "coradoc"
-require "coradoc/markdown"
-require "coradoc/asciidoc"
 
 module Metanorma
   module Plugin
     module Openapi
+      # metanorma-plugin-lutaml pins coradoc ~> 1.1.8, which excludes the
+      # 2.0 hub in every metanorma-cli bundle, so the monorepo (and its
+      # markdown spoke) may be absent at runtime; without it,
+      # CommonMark descriptions pass through with only the link bridge.
+      begin
+        require "coradoc"
+        require "coradoc/markdown"
+        require "coradoc/asciidoc"
+        MONOREPO = true
+      rescue LoadError
+        MONOREPO = false
+      end
+
       # Renders an OpenAPI document as normative AsciiDoc sections.
       # Descriptions are CommonMark (per the OpenAPI spec) and convert
       # to AsciiDoc through the coradoc tree — the metanorma-ogc#153
@@ -78,7 +88,7 @@ module Metanorma
         end
 
         def to_asciidoc(markdown)
-          adoc = Coradoc.convert(markdown, from: :markdown, to: :asciidoc)
+          adoc = convert_markdown(markdown)
           # coradoc-markdown does not convert CommonMark links yet (they
           # pass through raw); bridge the dominant inline form to
           # AsciiDoc's https://url[text]. Remove once coradoc grows
@@ -86,6 +96,12 @@ module Metanorma
           adoc.gsub(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/) do
             "#{Regexp.last_match(2)}[#{Regexp.last_match(1)}]"
           end
+        end
+
+        def convert_markdown(markdown)
+          return markdown unless MONOREPO
+
+          Coradoc.convert(markdown, from: :markdown, to: :asciidoc)
         end
       end
     end
