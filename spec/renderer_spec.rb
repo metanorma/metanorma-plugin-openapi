@@ -50,11 +50,18 @@ RSpec.describe Metanorma::Plugin::Openapi::Renderer do
           get:
             summary: Collections
             description: Lists the **collections**.
+        /map/tiles:
+          get:
+            summary: Retrieves a map tile
     YAML
 
     expect(adoc).to include("== Paths")
     expect(adoc).to include("=== GET /collections")
+    expect(adoc).to include("Collections")
     expect(adoc).to include("Lists the *collections*.")
+    # an operation with only a summary still renders its text
+    expect(adoc).to include("=== GET /map/tiles")
+    expect(adoc).to include("Retrieves a map tile")
   end
 
   it "exposes the Asciidoctor preprocessor class for metanorma activation" do

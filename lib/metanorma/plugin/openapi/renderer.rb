@@ -81,11 +81,18 @@ module Metanorma
             op.is_a?(Hash)
           end
           entries.flat_map do |method, operation|
-            lines = ["=== #{method.to_s.upcase} #{path}", ""]
-            if (desc = operation["description"])
-              lines << to_asciidoc(desc) << ""
+            ["=== #{method.to_s.upcase} #{path}", "",
+             *operation_text(operation)]
+          end
+        end
+
+        # most real corpora carry summary (the one-liner), not
+        # description; the tiles bundled OAS has summary on all 39
+        def operation_text(operation)
+          %w[summary description].filter_map do |key|
+            if (text = operation[key])
+              to_asciidoc(text) << ""
             end
-            lines
           end
         end
 
