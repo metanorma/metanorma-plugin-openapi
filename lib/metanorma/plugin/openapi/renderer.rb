@@ -62,7 +62,32 @@ module Metanorma
             lines << to_asciidoc(desc) << ""
           end
           lines << "Type: `#{schema.type}`" << "" if schema.type
-          lines
+          lines.concat(property_table(schema, name))
+        end
+
+        def property_table(schema, name)
+          entries = schema.property_entries
+          return [] if entries.nil? || entries.empty?
+
+          rows = entries.sort_by(&:name).map { |entry| property_row(entry) }
+          [".Properties of #{name}",
+           "[cols=\"2,1,7\",options=\"header\"]",
+           "|===",
+           "|Name |Type |Description",
+           *rows,
+           "|===",
+           ""]
+        end
+
+        def property_row(entry)
+          schema = entry.schema
+          "|#{entry.name} |`#{schema&.type}` |#{cell(schema&.description)}"
+        end
+
+        # table cells take plain text: escape the cell delimiter and
+        # flatten the (CommonMark) description to one line
+        def cell(text)
+          (text || "").gsub("|", "\\|").gsub(/\s+/, " ").strip
         end
 
         def paths_section

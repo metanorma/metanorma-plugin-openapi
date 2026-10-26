@@ -78,6 +78,8 @@ RSpec.describe "OGC corpus rendering (metanorma-ogc#153 acceptance)" do
     doc = Lutaml::Openapi.parse(source)
     adoc = Metanorma::Plugin::Openapi::Renderer.new(doc).render
 
+    expect(adoc).to include(".Properties of collection")
+    expect(adoc).to include("|crs |`array` |")
     title = "== Building Blocks specified in OGC API - Features - Part 1: Core"
     expect(adoc).to start_with(title)
     expect(adoc).to include("== Schemas")
