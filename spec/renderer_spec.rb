@@ -119,3 +119,59 @@ RSpec.describe Metanorma::Plugin::Openapi::Renderer, monorepo: false do
     expect(adoc).to include("- point one")
   end
 end
+
+RSpec.describe Metanorma::Plugin::Openapi::Renderer do
+  def render_from(openapi_yaml)
+    doc = Lutaml::Openapi.parse(openapi_yaml)
+    described_class.new(doc).render
+  end
+
+  # 3.0 sources reach the typed schema view through the frontend's
+  # normalization (nullable → null-union, exclusive bounds folded);
+  # the rendered output must show the normalized 3.1 semantics.
+  it "renders a 3.0 document with dialect-normalized schema semantics" do
+    adoc = render_from(<<~YAML)
+      openapi: 3.0.3
+      info:
+        title: Features 3.0
+      components:
+        schemas:
+          thing:
+            type: object
+            properties:
+              name:
+                type: string
+                nullable: true
+              count:
+                type: integer
+                minimum: 5
+                exclusiveMinimum: true
+    YAML
+
+    expect(adoc).to start_with("== Features 3.0")
+    expect(adoc).to include("API version: 3.0.3")
+    expect(adoc).to include("=== thing")
+    # nullable: true normalizes into the null-member union the 3.1
+    # shape carries; the dialect keyword itself never leaks through
+    expect(adoc).to include("|name |`string,null` |")
+    expect(adoc).not_to include("nullable")
+  end
+
+  it "renders 3.0 paths and their operation texts" do
+    adoc = render_from(<<~YAML)
+      openapi: 3.0.3
+      info:
+        title: Paths 3.0
+      paths:
+        /items:
+          get:
+            summary: List items
+            description: Returns the item collection.
+    YAML
+
+    expect(adoc).to include("== Paths")
+    expect(adoc).to include("=== GET /items")
+    expect(adoc).to include("List items")
+    expect(adoc).to include("Returns the item collection.")
+  end
+end
