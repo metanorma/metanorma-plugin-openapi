@@ -9,10 +9,12 @@ module Metanorma
       # 2.0 hub in every metanorma-cli bundle, so the monorepo (and its
       # markdown spoke) may be absent at runtime; without it,
       # CommonMark descriptions pass through with only the link bridge.
+      # The monorepo renamed its gems to coridoc* (2026-11-01): same
+      # require paths and module surface, new gem names.
       begin
-        require "coradoc"
-        require "coradoc/markdown"
-        require "coradoc/asciidoc"
+        require "coridoc"
+        require "coridoc/markdown"
+        require "coridoc/asciidoc"
         MONOREPO = true
       rescue LoadError
         MONOREPO = false
@@ -135,7 +137,7 @@ module Metanorma
         def convert_markdown(markdown)
           return markdown unless MONOREPO
 
-          Coradoc.convert(markdown, from: :markdown, to: :asciidoc)
+          Coridoc.convert(markdown, from: :markdown, to: :asciidoc)
         end
       end
     end
