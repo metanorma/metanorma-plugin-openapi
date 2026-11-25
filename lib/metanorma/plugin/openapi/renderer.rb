@@ -9,12 +9,13 @@ module Metanorma
       # 2.0 hub in every metanorma-cli bundle, so the monorepo (and its
       # markdown spoke) may be absent at runtime; without it,
       # CommonMark descriptions pass through with only the link bridge.
-      # The monorepo renamed its gems to coridoc* (2026-11-01): same
-      # require paths and module surface, new gem names.
+      # The monorepo renamed its gems again to ceradoc* (2026-11-25,
+      # coradoc → coridoc → ceradoc): same require paths and module
+      # surface, new gem names.
       begin
-        require "coridoc"
-        require "coridoc/markdown"
-        require "coridoc/asciidoc"
+        require "ceradoc"
+        require "ceradoc/markdown"
+        require "ceradoc/asciidoc"
         MONOREPO = true
       rescue LoadError
         MONOREPO = false
@@ -22,8 +23,8 @@ module Metanorma
 
       # Renders an OpenAPI document as normative AsciiDoc sections.
       # Descriptions are CommonMark (per the OpenAPI spec) and convert
-      # to AsciiDoc through the coradoc tree — the metanorma-ogc#153
-      # pipeline: OpenAPI(Markdown) → Coradoc → Metanorma.
+      # to AsciiDoc through the ceradoc tree — the metanorma-ogc#153
+      # pipeline: OpenAPI(Markdown) → Ceradoc → Metanorma.
       class Renderer
         def initialize(document)
           @document = document
@@ -125,9 +126,9 @@ module Metanorma
 
         def to_asciidoc(markdown)
           adoc = convert_markdown(markdown)
-          # coradoc-markdown does not convert CommonMark links yet (they
+          # ceradoc-markdown does not convert CommonMark links yet (they
           # pass through raw); bridge the dominant inline form to
-          # AsciiDoc's https://url[text]. Remove once coradoc grows
+          # AsciiDoc's https://url[text]. Remove once ceradoc grows
           # native link support (metanorma/coradoc issue to follow).
           adoc.gsub(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/) do
             "#{Regexp.last_match(2)}[#{Regexp.last_match(1)}]"
@@ -137,7 +138,7 @@ module Metanorma
         def convert_markdown(markdown)
           return markdown unless MONOREPO
 
-          Coridoc.convert(markdown, from: :markdown, to: :asciidoc)
+          Ceradoc.convert(markdown, from: :markdown, to: :asciidoc)
         end
       end
     end

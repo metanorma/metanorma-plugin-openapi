@@ -31,11 +31,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency "lutaml-model", "~> 0.8.159"
   # the renderer consumes the OpenAPI model gem (0.1.0 = first release)
   spec.add_dependency "lutaml-openapi", "~> 0.1.3"
-  # CommonMark descriptions convert to AsciiDoc through the coridoc
-  # monorepo (renamed from coradoc, 2026-11-01)
-  spec.add_dependency "coridoc", "~> 3.0"
-  spec.add_dependency "coridoc-adoc", "~> 2.0"
-  spec.add_dependency "coridoc-markdown", "~> 1.0"
+  # CommonMark descriptions convert to AsciiDoc through the ceradoc
+  # monorepo (renamed coradoc → coridoc → ceradoc, 2026-11-25)
+  spec.add_dependency "ceradoc", "~> 3.0"
+  spec.add_dependency "ceradoc-adoc", "~> 2.0"
+  spec.add_dependency "ceradoc-markdown", "~> 1.0"
 
   spec.metadata["rubygems_mfa_required"] = "true"
 end
