@@ -32,10 +32,12 @@ Gem::Specification.new do |spec|
   # the renderer consumes the OpenAPI model gem (0.1.0 = first release)
   spec.add_dependency "lutaml-openapi", "~> 0.1.3"
   # CommonMark descriptions convert to AsciiDoc through the ceradoc
-  # monorepo (renamed coradoc → coridoc → ceradoc, 2026-11-25)
-  spec.add_dependency "ceradoc", "~> 3.0"
-  spec.add_dependency "ceradoc-adoc", "~> 2.0"
-  spec.add_dependency "ceradoc-markdown", "~> 1.0"
+  # monorepo (renamed coradoc → coridoc → ceradoc, 2026-11-25); floors at
+  # the latest lines: ceradoc-adoc/markdown >= 2.0.38 / 1.0.18 span the
+  # parsanol line, keeping the family co-resolvable with expressir
+  spec.add_dependency "ceradoc", "~> 3.0.1"
+  spec.add_dependency "ceradoc-adoc", "~> 2.0.38"
+  spec.add_dependency "ceradoc-markdown", "~> 1.0.18"
 
   spec.metadata["rubygems_mfa_required"] = "true"
 end
