@@ -28,9 +28,9 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.0.0" # rubocop:disable Gemspec/RequiredRubyVersion
 
   spec.add_dependency "asciidoctor"
-  spec.add_dependency "lutaml-model", "~> 0.8.122"
+  spec.add_dependency "lutaml-model", "~> 0.8.159"
   # the renderer consumes the OpenAPI model gem (0.1.0 = first release)
-  spec.add_dependency "lutaml-openapi", "~> 0.1.0"
+  spec.add_dependency "lutaml-openapi", "~> 0.1.3"
 
   spec.metadata["rubygems_mfa_required"] = "true"
 end
