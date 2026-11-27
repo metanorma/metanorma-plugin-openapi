@@ -28,9 +28,9 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.0.0" # rubocop:disable Gemspec/RequiredRubyVersion
 
   spec.add_dependency "asciidoctor"
-  spec.add_dependency "lutaml-model", "~> 0.8.159"
+  spec.add_dependency "lutaml-model", "~> 0.8.185"
   # the renderer consumes the OpenAPI model gem (0.1.0 = first release)
-  spec.add_dependency "lutaml-openapi", "~> 0.1.3"
+  spec.add_dependency "lutaml-openapi", "~> 0.1.7"
   # CommonMark descriptions convert to AsciiDoc through the ceradoc
   # monorepo (renamed coradoc → coridoc → ceradoc, 2026-11-25); floors at
   # the latest lines: ceradoc-adoc/markdown >= 2.0.38 / 1.0.18 span the
